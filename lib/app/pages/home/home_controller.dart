@@ -14,4 +14,5 @@ class HomeController {
         this.title = title,
         this.subtitle = subtitle,
         this.text = text;
+  changeMenu(Menu value) => menu.value = value;
 }

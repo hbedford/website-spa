@@ -26,6 +26,7 @@ void main() {
   getIt.registerSingleton<PlansController>(PlansController(
       plans: MockPlans().plans, title: 'Pacotes de Spa feitos para você!'));
   runApp(MaterialApp(
+    title: 'Bawa Spa',
     home: HomeScreen(),
   ));
 }

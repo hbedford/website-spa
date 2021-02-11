@@ -12,6 +12,7 @@ class HomeDesktop extends StatelessWidget {
     letterSpacing: 2,
   );
   final controllerPlan = GetIt.I.get<PlansController>();
+  PageController controllerPage = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,19 +79,32 @@ class HomeDesktop extends StatelessWidget {
                 flex: 4,
                 child: Container(
                   /*  color: Colors.blue, */
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: controller.menus.value
-                          .map(
-                            (e) => TextButton(
-                              onPressed: () => null,
-                              child: Text(
-                                e.title,
-                                style: style.copyWith(color: Colors.black),
+                  child: ValueListenableBuilder(
+                    valueListenable: controller.menu,
+                    builder: (_, value, child) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: controller.menus.value
+                            .map(
+                              (e) => TextButton(
+                                onPressed: () {
+                                  controller.changeMenu(e);
+                                  controllerPage.animateToPage(
+                                      controller.menus.value.indexOf(e),
+                                      duration: Duration(milliseconds: 200),
+                                      curve: Curves.easeIn);
+                                },
+                                child: Text(
+                                  e.title,
+                                  style: style.copyWith(
+                                      color:
+                                          controller.menu.value.title == e.title
+                                              ? Colors.black
+                                              : null),
+                                ),
                               ),
-                            ),
-                          )
-                          .toList()),
+                            )
+                            .toList()),
+                  ),
                 ),
               )
             ],

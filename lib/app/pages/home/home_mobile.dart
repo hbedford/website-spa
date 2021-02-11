@@ -74,26 +74,32 @@ class HomeMobile extends StatelessWidget {
                 children: [
                   Flexible(
                       flex: 1,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: controller.menus.value
-                            .map(
-                              (e) => TextButton(
-                                onPressed: () => controllerPage.animateToPage(
-                                    controller.menus.value.indexOf(e),
-                                    duration: Duration(milliseconds: 200),
-                                    curve: Curves.easeIn),
-                                child: Text(
-                                  e.title,
-                                  style: style.copyWith(
-                                      color:
-                                          controller.menu.value.title == e.title
-                                              ? Colors.black
-                                              : null),
+                      child: ValueListenableBuilder(
+                        valueListenable: controller.menu,
+                        builder: (_, value, child) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: controller.menus.value
+                              .map(
+                                (e) => TextButton(
+                                  onPressed: () {
+                                    controller.changeMenu(e);
+                                    controllerPage.animateToPage(
+                                        controller.menus.value.indexOf(e),
+                                        duration: Duration(milliseconds: 200),
+                                        curve: Curves.easeIn);
+                                  },
+                                  child: Text(
+                                    e.title,
+                                    style: style.copyWith(
+                                        color: controller.menu.value.title ==
+                                                e.title
+                                            ? Colors.black
+                                            : null),
+                                  ),
                                 ),
-                              ),
-                            )
-                            .toList(),
+                              )
+                              .toList(),
+                        ),
                       )),
                   Expanded(
                     flex: 9,
